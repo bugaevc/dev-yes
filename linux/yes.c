@@ -97,8 +97,9 @@ static ssize_t yes_write(struct file *file, const char __user *buf, size_t count
 		if (copy_from_user(data->written_data + data->written_size, buf, count))
 			return -EFAULT;
 		data->written_size += count;
-		data->exploded_size = 0;
+		kfree(data->exploded_data);
 		data->exploded_data = NULL;
+		data->exploded_size = 0;
 	}
 
 	return count;
