@@ -93,7 +93,7 @@ open_hook (struct trivfs_peropen *peropen)
   if (yes == NULL)
     return ENOMEM;
 
-  memset(yes, 0, sizeof (struct yes));
+  memset (yes, 0, sizeof (struct yes));
   peropen->hook = yes;
   return 0;
 }
