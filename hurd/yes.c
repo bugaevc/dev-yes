@@ -78,9 +78,9 @@ explode (struct yes *yes)
     }
   else
     {
-        const uint16_t yn = *(const uint16_t *)"y\n";
-        for (size_t i = 0; i * 2 < yes->exploded_size; i++)
-          ((uint16_t *) yes->exploded_data)[i] = yn;
+      const uint16_t yn = *(const uint16_t *) "y\n";
+      for (size_t i = 0; i * 2 < yes->exploded_size; i++)
+        ((uint16_t *) yes->exploded_data)[i] = yn;
     }
 
   return 0;
@@ -106,14 +106,14 @@ close_hook (struct trivfs_peropen *peropen)
   if (yes == NULL)
     return;
 
-  free(yes->written_data);
-  free(yes->exploded_data);
-  free(yes);
+  free (yes->written_data);
+  free (yes->exploded_data);
+  free (yes);
   peropen->hook = NULL;
 }
 
-error_t (*trivfs_peropen_create_hook)(struct trivfs_peropen *) = open_hook;
-void (*trivfs_peropen_destroy_hook)(struct trivfs_peropen *) = close_hook;
+error_t (*trivfs_peropen_create_hook) (struct trivfs_peropen *) = open_hook;
+void (*trivfs_peropen_destroy_hook) (struct trivfs_peropen *) = close_hook;
 
 void trivfs_modify_stat (struct trivfs_protid *cred, io_statbuf_t *st)
 {
@@ -130,16 +130,16 @@ error_t trivfs_goaway (struct trivfs_control *cntl, int flags)
 
 kern_return_t
 trivfs_S_io_readable (struct trivfs_protid *cred,
-		      mach_port_t reply,
-		      mach_msg_type_name_t reply_type,
-		      mach_msg_type_number_t *amount)
+                      mach_port_t reply,
+                      mach_msg_type_name_t reply_type,
+                      mach_msg_type_number_t *amount)
 {
   if (!cred)
     return EOPNOTSUPP;
   else if (!(cred->po->openmodes & O_READ))
     return EBADF;
 
-  *amount = 2 * getpagesize();
+  *amount = 2 * getpagesize ();
   return 0;
 }
 
@@ -183,7 +183,7 @@ trivfs_S_io_read (struct trivfs_protid *cred,
       if (to_copy > yes->exploded_size - yes->offset)
         to_copy = yes->exploded_size - yes->offset;
 
-      memcpy((*data) + nread, yes->exploded_data + yes->offset, to_copy);
+      memcpy ((*data) + nread, yes->exploded_data + yes->offset, to_copy);
       nread += to_copy;
       yes->offset += to_copy;
       yes->offset %= yes->exploded_size;
@@ -195,12 +195,12 @@ trivfs_S_io_read (struct trivfs_protid *cred,
 
 kern_return_t
 trivfs_S_io_write (struct trivfs_protid *cred,
-                  mach_port_t reply,
-                  mach_msg_type_name_t reply_type,
-                  data_t data,
-                  mach_msg_type_number_t data_len,
-                  loff_t offset,
-                  vm_size_t *amount)
+                   mach_port_t reply,
+                   mach_msg_type_name_t reply_type,
+                   data_t data,
+                   mach_msg_type_number_t data_len,
+                   loff_t offset,
+                   vm_size_t *amount)
 {
   struct yes *yes;
   char *new_written_data;
@@ -212,14 +212,14 @@ trivfs_S_io_write (struct trivfs_protid *cred,
 
   yes = cred->po->hook;
 
-  new_written_data = realloc(yes->written_data, yes->written_size + data_len);
+  new_written_data = realloc (yes->written_data, yes->written_size + data_len);
   if (new_written_data == NULL)
     return ENOMEM;
   yes->written_data = new_written_data;
-  memcpy(yes->written_data + yes->written_size, data, data_len);
+  memcpy (yes->written_data + yes->written_size, data, data_len);
   yes->written_size += data_len;
 
-  free(yes->exploded_data);
+  free (yes->exploded_data);
   yes->exploded_data = NULL;
   yes->exploded_size = 0;
 
