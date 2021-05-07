@@ -274,6 +274,13 @@ trivfs_S_io_select (struct trivfs_protid *cred,
   return 0;
 }
 
+error_t
+trivfs_append_args (struct trivfs_control *fsys,
+                    char **argz, size_t *argz_len)
+{
+  return 0;
+}
+
 int
 main (int argc, char **argv)
 {
