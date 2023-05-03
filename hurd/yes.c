@@ -197,7 +197,7 @@ kern_return_t
 trivfs_S_io_write (struct trivfs_protid *cred,
                    mach_port_t reply,
                    mach_msg_type_name_t reply_type,
-                   data_t data,
+                   const_data_t data,
                    mach_msg_type_number_t data_len,
                    loff_t offset,
                    vm_size_t *amount)
