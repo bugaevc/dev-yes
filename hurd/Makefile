@@ -1,5 +1,5 @@
 yes: yes.c
-	$(CC) $^ -o $@ -lports -ltrivfs
+	$(CC) $^ -o $@ -Wall -lports -ltrivfs
 
 clean:
 	rm -f yes
