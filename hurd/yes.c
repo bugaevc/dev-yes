@@ -257,7 +257,7 @@ trivfs_S_io_seek (struct trivfs_protid *cred,
   if (offset < 0)
     return EINVAL;
 
-  yes->offset = offset;
+  yes->offset = *newp = offset;
   return 0;
 }
 
