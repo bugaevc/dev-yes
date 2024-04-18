@@ -174,4 +174,3 @@ module_misc_device(yes_device);
 MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Sergey Bugaev <bugaevc@gmail.com>");
 MODULE_DESCRIPTION("Kernel-side yes implementation");
-MODULE_SUPPORTED_DEVICE("yes");
